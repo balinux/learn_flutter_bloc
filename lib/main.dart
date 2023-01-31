@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:learn_flutter_bloc/pages/home.dart';
 
 void main() {
   runApp(const MyApp());
@@ -27,112 +28,5 @@ class MyApp extends StatelessWidget {
       ),
       home: MyHomePage(),
     );
-  }
-}
-
-class CounterCubit extends Cubit<int> {
-  CounterCubit({this.initialData = 0}) : super(initialData);
-
-  int initialData;
-  int? curent;
-  int? next;
-
-  void increment() {
-    emit(state + 1);
-  }
-
-  void decrement() {
-    emit(state - 1);
-  }
-
-  // observer
-  // dignakan untuk memantau perbahan, error dll
-  @override
-  void onChange(Change<int> change) {
-    // TODO: implement onChange
-    super.onChange(change);
-    print(change);
-    curent = change.currentState;
-    next = change.nextState;
-  }
-
-  @override
-  void onError(Object error, StackTrace stackTrace) {
-    // TODO: implement onError
-    super.onError(error, stackTrace);
-    print(error);
-  }
-}
-
-class MyHomePage extends StatelessWidget {
-  MyHomePage({super.key});
-
-  CounterCubit _counterCubit = CounterCubit();
-
-  @override
-  Widget build(BuildContext context) {
-    print("PREBUILD");
-    return Scaffold(
-        appBar: AppBar(
-          title: const Text("Belajar Cubit"),
-        ),
-        body: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            StreamBuilder(
-              initialData: _counterCubit.initialData,
-              stream: _counterCubit.stream,
-              builder: (context, snapshot) {
-                return Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Center(
-                        child: Text(
-                      "${snapshot.data}",
-                      style: TextStyle(fontSize: 30),
-                    )),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Center(
-                        child: Text(
-                      "current: ${_counterCubit.curent ?? "current"}",
-                      style: TextStyle(fontSize: 30),
-                    )),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Center(
-                        child: Text(
-                      "next: ${_counterCubit.next ?? "next"}",
-                      style: TextStyle(fontSize: 30),
-                    )),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                  ],
-                );
-              },
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                IconButton(
-                    onPressed: () {
-                      _counterCubit.increment();
-                    },
-                    icon: const Icon(Icons.add)),
-                IconButton(
-                    onPressed: () {
-                      _counterCubit.decrement();
-                    },
-                    icon: const Icon(Icons.remove))
-              ],
-            )
-          ],
-        ));
   }
 }
