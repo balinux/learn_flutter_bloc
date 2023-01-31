@@ -9,3 +9,5 @@ gabungan antara bloc builder dan bloc listener
 digunakan jika ingin menggunakan state management di antara widged
 
 - provider ada juga dengan alasan agar state tidak di passing dari via constructor class. jadi blocprovide menggunakan dependency injection
+
+- dependency injection itu menginjeksi suatu dependency dimana ketika menjieksi suatu file maka akan bisa digunakan di tempat lainnya.

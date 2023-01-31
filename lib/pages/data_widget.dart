@@ -5,11 +5,7 @@ import 'package:learn_flutter_bloc/bloc/counter.dart';
 class DataWidget extends StatelessWidget {
   const DataWidget({
     Key? key,
-    required Counter counter,
-  })  : _counter = counter,
-        super(key: key);
-
-  final Counter _counter;
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +15,7 @@ class DataWidget extends StatelessWidget {
       color: Colors.red,
       child: Center(
           child: BlocBuilder(
-        bloc: _counter,
+        bloc: BlocProvider.of<Counter>(context),
         builder: (context, state) {
           return Text(
             "$state",

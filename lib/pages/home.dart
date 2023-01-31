@@ -8,10 +8,9 @@ import 'package:learn_flutter_bloc/pages/data_widget.dart';
 class MyHomePage extends StatelessWidget {
   MyHomePage({super.key});
 
-  Counter _counter = Counter(init: 0);
-
   @override
   Widget build(BuildContext context) {
+    Counter counter = BlocProvider.of<Counter>(context);
     return Scaffold(
       appBar: AppBar(
         title: const Text("bloc provider"),
@@ -28,7 +27,10 @@ class MyHomePage extends StatelessWidget {
                 color: Colors.blue,
                 child: InkWell(
                   onTap: () {
-                    _counter.decrement();
+                    // BlocProvider.of<Counter>(context).decrement();
+
+                    //shordhand
+                    counter.decrement();
                   },
                   child: Center(
                       child: Icon(
@@ -37,14 +39,17 @@ class MyHomePage extends StatelessWidget {
                   )),
                 ),
               ),
-              DataWidget(counter: _counter),
+              DataWidget(),
               Container(
                 height: 100,
                 width: 70,
                 color: Colors.blue,
                 child: InkWell(
                   onTap: () {
-                    _counter.increment();
+                    // BlocProvider.of<Counter>(context).increment();
+
+                    //shordhand
+                    counter.increment();
                   },
                   child: Center(
                       child: Icon(
