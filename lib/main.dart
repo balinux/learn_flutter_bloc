@@ -1,3 +1,4 @@
+import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -24,44 +25,70 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: const MyHomePage(),
+      home: MyHomePage(),
     );
   }
 }
 
-class MyHomePage extends StatelessWidget {
-  const MyHomePage({super.key});
+class CounterCubit extends Cubit<int> {
+  CounterCubit({this.initialData = 0}) : super(initialData);
 
-  Stream<int> countestream() async* {
-    for (var i = 0; i < 10; i++) {
-      await Future.delayed(const Duration(seconds: 1));
-      yield i;
-    }
+  int initialData;
+
+  void increment() {
+    emit(state + 1);
   }
+
+  void decrement() {
+    emit(state - 1);
+  }
+}
+
+class MyHomePage extends StatelessWidget {
+  MyHomePage({super.key});
+
+  CounterCubit _counterCubit = CounterCubit();
 
   @override
   Widget build(BuildContext context) {
     print("PREBUILD");
     return Scaffold(
-        body: StreamBuilder(
-      stream: countestream(),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Center(
-            child: Text("Waiting"),
-          );
-        } else {
-          return Center(
-            child: Text(
-              "${snapshot.data}",
-              style: const TextStyle(fontSize: 20),
+        appBar: AppBar(
+          title: const Text("Belajar Cubit"),
+        ),
+        body: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            StreamBuilder(
+              initialData: _counterCubit.initialData,
+              stream: _counterCubit.stream,
+              builder: (context, snapshot) {
+                return Center(
+                    child: Text(
+                  "${snapshot.data}",
+                  style: TextStyle(fontSize: 30),
+                ));
+              },
             ),
-          );
-        }
-        // return Center(
-        //   child: Text("data"),
-        // );
-      },
-    ));
+            const SizedBox(
+              height: 20,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                IconButton(
+                    onPressed: () {
+                      _counterCubit.increment();
+                    },
+                    icon: const Icon(Icons.add)),
+                IconButton(
+                    onPressed: () {
+                      _counterCubit.decrement();
+                    },
+                    icon: const Icon(Icons.remove))
+              ],
+            )
+          ],
+        ));
   }
 }
