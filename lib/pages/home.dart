@@ -13,21 +13,22 @@ class MyHomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("bloc builder"),
+        title: const Text("bloc consumer"),
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          BlocBuilder<Counter, int>(
+          BlocConsumer<Counter, int>(
             bloc: _counter,
             buildWhen: (previous, current) {
-              // jika di return false maka data state tidak berubah
-
-              // return true;
-
-              // or
-
-              if (current == 5) {
+              if (current % 2 == 0) {
+                return true;
+              } else {
+                return false;
+              }
+            },
+            listenWhen: (previous, current) {
+              if (current % 2 == 0) {
                 return true;
               } else {
                 return false;
@@ -38,6 +39,12 @@ class MyHomePage extends StatelessWidget {
                 "$state",
                 style: TextStyle(fontSize: 50),
               );
+            },
+            listener: (context, state) {
+              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                duration: Duration(seconds: 1),
+                content: Text("Tampil jika data genap"),
+              ));
             },
           ),
           Row(
