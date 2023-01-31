@@ -13,39 +13,34 @@ class MyHomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("bloc consumer"),
+        title: const Text("bloc listener"),
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          BlocConsumer<Counter, int>(
+          BlocListener<Counter, int>(
             bloc: _counter,
-            buildWhen: (previous, current) {
-              if (current % 2 == 0) {
-                return true;
-              } else {
-                return false;
-              }
+            listener: (context, state) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text("dijalankan jika state berubah")));
             },
             listenWhen: (previous, current) {
-              if (current % 2 == 0) {
+              // set untuk menampilkan data jika mencapai 5
+              if (current == 5) {
                 return true;
               } else {
                 return false;
               }
             },
-            builder: (context, state) {
-              return Text(
-                "$state",
-                style: TextStyle(fontSize: 50),
-              );
-            },
-            listener: (context, state) {
-              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                duration: Duration(seconds: 1),
-                content: Text("Tampil jika data genap"),
-              ));
-            },
+            child: BlocBuilder<Counter, int>(
+              bloc: _counter,
+              builder: (context, state) {
+                return Text(
+                  "$state",
+                  style: TextStyle(fontSize: 50),
+                );
+              },
+            ),
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
