@@ -34,6 +34,8 @@ class CounterCubit extends Cubit<int> {
   CounterCubit({this.initialData = 0}) : super(initialData);
 
   int initialData;
+  int? curent;
+  int? next;
 
   void increment() {
     emit(state + 1);
@@ -41,6 +43,24 @@ class CounterCubit extends Cubit<int> {
 
   void decrement() {
     emit(state - 1);
+  }
+
+  // observer
+  // dignakan untuk memantau perbahan, error dll
+  @override
+  void onChange(Change<int> change) {
+    // TODO: implement onChange
+    super.onChange(change);
+    print(change);
+    curent = change.currentState;
+    next = change.nextState;
+  }
+
+  @override
+  void onError(Object error, StackTrace stackTrace) {
+    // TODO: implement onError
+    super.onError(error, stackTrace);
+    print(error);
   }
 }
 
@@ -63,11 +83,35 @@ class MyHomePage extends StatelessWidget {
               initialData: _counterCubit.initialData,
               stream: _counterCubit.stream,
               builder: (context, snapshot) {
-                return Center(
-                    child: Text(
-                  "${snapshot.data}",
-                  style: TextStyle(fontSize: 30),
-                ));
+                return Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Center(
+                        child: Text(
+                      "${snapshot.data}",
+                      style: TextStyle(fontSize: 30),
+                    )),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Center(
+                        child: Text(
+                      "current: ${_counterCubit.curent ?? "current"}",
+                      style: TextStyle(fontSize: 30),
+                    )),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Center(
+                        child: Text(
+                      "next: ${_counterCubit.next ?? "next"}",
+                      style: TextStyle(fontSize: 30),
+                    )),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                  ],
+                );
               },
             ),
             const SizedBox(
