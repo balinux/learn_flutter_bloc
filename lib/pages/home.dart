@@ -9,7 +9,7 @@ class MyHomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Counter counter = BlocProvider.of<Counter>(context);
+    Counter counter = context.read<Counter>();
     return Scaffold(
       appBar: AppBar(
         title: const Text("bloc provider"),
@@ -64,7 +64,10 @@ class MyHomePage extends StatelessWidget {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.of(context).push(MaterialPageRoute(
-            builder: (context) => Page1(),
+            builder: (context) => BlocProvider.value(
+              value: counter,
+              child: const Page1(),
+            ),
           ));
         },
         child: Icon(Icons.arrow_forward),
