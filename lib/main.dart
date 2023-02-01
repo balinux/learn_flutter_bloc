@@ -10,6 +10,8 @@ void main() {
   runApp(MyApp());
 }
 
+final Counter counter = Counter();
+
 class MyApp extends StatelessWidget {
   MyApp({super.key});
 
@@ -18,8 +20,12 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      onGenerateRoute: router.onRoute,
+    return BlocProvider(
+      create: (context) => Counter(),
+      child: MaterialApp(
+        home: MyHomePage(),
+        // onGenerateRoute: router.onRoute,
+      ),
     );
   }
 }

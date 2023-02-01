@@ -63,15 +63,12 @@ class MyHomePage extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          // Navigator.of(context).push(MaterialPageRoute(
-          //   builder: (context) => BlocProvider.value(
-          //     value: counter,
-          //     child: const Page1(),
-          //   ),
-          // ));
+          Navigator.of(context).push(MaterialPageRoute(
+            builder: (context) => const Page1(),
+          ));
 
           // BLOC accees named route access
-          Navigator.of(context).pushNamed('/page1');
+          // Navigator.of(context).pushNamed('/page1');
         },
         child: Icon(Icons.arrow_forward),
       ),
