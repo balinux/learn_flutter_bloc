@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:learn_flutter_bloc/bloc/counter.dart';
 import 'package:learn_flutter_bloc/pages/data_widget.dart';
+import 'package:learn_flutter_bloc/pages/page1.dart';
 
 class MyHomePage extends StatelessWidget {
   MyHomePage({super.key});
@@ -32,7 +31,7 @@ class MyHomePage extends StatelessWidget {
                     //shordhand
                     counter.decrement();
                   },
-                  child: Center(
+                  child: const Center(
                       child: Icon(
                     Icons.remove,
                     color: Colors.white,
@@ -61,6 +60,14 @@ class MyHomePage extends StatelessWidget {
             ],
           ),
         ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.of(context).push(MaterialPageRoute(
+            builder: (context) => Page1(),
+          ));
+        },
+        child: Icon(Icons.arrow_forward),
       ),
     );
   }
