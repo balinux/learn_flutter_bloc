@@ -22,21 +22,40 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => mytheme,
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => counter,
+        ),
+        BlocProvider(
+          create: (context) => mytheme,
+        )
+      ],
       child: BlocBuilder<ThemeBloc, bool>(
-        bloc: mytheme,
         builder: (context, state) {
-          return BlocProvider(
-            create: (context) => Counter(),
-            child: MaterialApp(
-              theme: state == true ? ThemeData.dark() : ThemeData.light(),
-              home: MyHomePage(),
-              // onGenerateRoute: router.onRoute,
-            ),
+          return MaterialApp(
+            theme: state == true ? ThemeData.dark() : ThemeData.light(),
+            home: MyHomePage(),
+            // onGenerateRoute: router.onRoute,
           );
         },
       ),
     );
+    // return BlocProvider(
+    //   create: (context) => mytheme,
+    //   child: BlocBuilder<ThemeBloc, bool>(
+    //     bloc: mytheme,
+    //     builder: (context, state) {
+    //       return BlocProvider(
+    //         create: (context) => Counter(),
+    //         child: MaterialApp(
+    //           theme: state == true ? ThemeData.dark() : ThemeData.light(),
+    //           home: MyHomePage(),
+    //           // onGenerateRoute: router.onRoute,
+    //         ),
+    //       );
+    //     },
+    //   ),
+    // );
   }
 }
