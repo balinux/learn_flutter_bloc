@@ -10,46 +10,50 @@ class DataWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 100,
-      width: 100,
-      color: Colors.red,
-      child: Center(
-          child: BlocListener<ThemeBloc, bool>(
-        listener: (context, state) {
-          ScaffoldMessenger.of(context)
-              .showSnackBar(SnackBar(content: Text("Dark Mode")));
-        },
-        listenWhen: (previous, current) {
-          if (current == true) {
-            return true;
-          } else {
-            return false;
-          }
-        },
-        child: BlocListener<Counter, int>(
-          listener: (context, state) {
-            ScaffoldMessenger.of(context)
-                .showSnackBar(SnackBar(content: Text("Data Diatas 5")));
-          },
-          listenWhen: (previous, current) {
-            if (current > 5) {
-              return true;
-            } else {
-              return false;
-            }
-          },
-          child: BlocBuilder(
-            bloc: BlocProvider.of<Counter>(context),
-            builder: (context, state) {
-              return Text(
-                "$state",
-                style: TextStyle(fontSize: 50, color: Colors.white),
-              );
-            },
-          ),
-        ),
-      )),
+    return Column(
+      children: [
+        MultiBlocListener(
+            listeners: [
+              // listen theme bloc
+              BlocListener<ThemeBloc, bool>(
+                listener: (context, state) {
+                  ScaffoldMessenger.of(context)
+                      .showSnackBar(SnackBar(content: Text("Dark Mode")));
+                },
+                listenWhen: (previous, current) {
+                  if (current == true) {
+                    return true;
+                  } else {
+                    return false;
+                  }
+                },
+              ),
+
+              // Listen Counter Bloc
+              BlocListener<Counter, int>(
+                listener: (context, state) {
+                  ScaffoldMessenger.of(context)
+                      .showSnackBar(SnackBar(content: Text("Data Diatas 5")));
+                },
+                listenWhen: (previous, current) {
+                  if (current > 5) {
+                    return true;
+                  } else {
+                    return false;
+                  }
+                },
+              )
+            ],
+            child: BlocBuilder(
+              bloc: BlocProvider.of<Counter>(context),
+              builder: (context, state) {
+                return Text(
+                  "$state",
+                  style: TextStyle(fontSize: 50, color: Colors.white),
+                );
+              },
+            )),
+      ],
     );
   }
 }
